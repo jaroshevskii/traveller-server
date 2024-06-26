@@ -13,6 +13,10 @@ public func configure(_ app: Application) async throws {
     
     // uncomment to serve files from /Public folder
     app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
+    
+    // Ipconfig getifaddr en0
+    app.http.server.configuration.hostname = "192.168.0.101"
+    
     // register routes
     try routes(app)
 }
