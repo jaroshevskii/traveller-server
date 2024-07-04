@@ -15,7 +15,7 @@ public func configure(_ app: Application) async throws {
     app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
     
     // Ipconfig getifaddr en0
-    app.http.server.configuration.hostname = "192.168.0.101"
+//    app.http.server.configuration.hostname = "192.168.0.101"
     
     // register routes
     try routes(app)

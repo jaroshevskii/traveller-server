@@ -8,54 +8,43 @@
 import Vapor
 
 final class ToursController: RouteCollection, Sendable {
-    private let tourManager = TourManager()
+    private let toursManager = ToursManager()
     
     func boot(routes: RoutesBuilder) throws {
         let searchRoutes = routes.grouped("tours")
-        searchRoutes.get("countriesNames", use: countriesNames)
-//        searchRoutes.get("resorts", use: getResorts)
-//        searchRoutes.get("departureCities", use: getDepartureCities)
+        searchRoutes.get("countryNames", use: countriesNames)
+        searchRoutes.get("resortNames", use: resortNames)
+        searchRoutes.get("departureCities", use: departureCities)
     }
     
     @Sendable private func countriesNames(req: Request) throws -> [String] {
-        return tourManager.countries.map { $0.name }
+        return toursManager.countries.map { $0.name }
     }
     
-    @Sendable private func getResorts(req: Request) throws -> [String] {
+    @Sendable private func resortNames(req: Request) throws -> [String] {
         guard let countryName = req.query[String.self, at: "countryName"] else {
-            throw Abort(.badRequest, reason: "Country parameter is missing")
+            throw Abort(.badRequest, reason: "Required query parameters are missing")
         }
         
-        if let country = Tour
-            .sampleData
-            .map({ $0.country })
-            .first(where: { $0.name.lowercased() == countryName.lowercased() }) {
-
-            let resortNames = country.resorts.map { $0.name }
-            return resortNames
-        } else {
-            throw Abort(.notFound, reason: "Country '\(countryName)' not found")
+        do {
+            let resorts = try toursManager.resorts(countryName: countryName)
+            return resorts.map { $0.name }
+        } catch {
+            throw Abort(.notFound, reason: error.localizedDescription)
         }
     }
     
-//    @Sendable private func getDepartureCities(req: Request) throws -> [String] {
-//        guard let countryName = req.query[String.self, at: "countryName"],
-//              let resortName = req.query[String.self, at: "resortName"] else {
-//            throw Abort(.badRequest, reason: "Required query parameters are missing")
-//        }
-//        
-//        guard let country = Tour.sampleData.map({ $0.country }).first(where: { $0.name.lowercased() == countryName.lowercased() }) else {
-//            throw Abort(.notFound, reason: "Country '\(countryName)' not found")
-//        }
-//        
-//        let resortNames = country.resorts.map { $0.name }
-//        
-//        let resort = country.resorts.map({ $0.name }).first(where: { $0.name.lowercased() == countryName.lowercased() })
-//
-//        guard resortNames.contains(resortName) else {
-//            throw Abort(.notFound, reason: "Resort '\(resortName)' not found in country '\(countryName)'")
-//        }
-//        
-//        return resortNames
-//    }
+    @Sendable private func departureCities(req: Request) throws -> [DepartureCity] {
+        guard let countryName = req.query[String.self, at: "countryName"],
+              let resortName = req.query[String.self, at: "resortName"] else {
+            throw Abort(.badRequest, reason: "Required query parameters are missing")
+        }
+        
+        do {
+            let departureCities = try toursManager.departureCities(countryName: countryName, resortName: resortName)
+            return departureCities
+        } catch {
+            throw Abort(.notFound, reason: error.localizedDescription)
+        }
+    }
 }
