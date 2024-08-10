@@ -6,6 +6,12 @@ let package = Package(
     platforms: [
         .macOS(.v14),
     ],
+    products: [
+        .executable(
+            name: "travelerserver",
+            targets: ["TravelerServer"]
+        ),
+    ],
     dependencies: [
         // 💧 A server-side Swift web framework.
         .package(url: "https://github.com/vapor/vapor.git", from: "4.99.3"),
@@ -14,7 +20,7 @@ let package = Package(
     ],
     targets: [
         .executableTarget(
-            name: "travelerserver",
+            name: "TravelerServer",
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
                 .product(name: "NIOCore", package: "swift-nio"),
