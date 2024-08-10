@@ -1,10 +1,10 @@
-// swift-tools-version:5.10
+// swift-tools-version: 5.10
 import PackageDescription
 
 let package = Package(
-    name: "traveler-server",
+    name: "TravelerServer",
     platforms: [
-       .macOS(.v13)
+        .macOS(.v14),
     ],
     dependencies: [
         // 💧 A server-side Swift web framework.
@@ -14,7 +14,7 @@ let package = Package(
     ],
     targets: [
         .executableTarget(
-            name: "App",
+            name: "travelerserver",
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
                 .product(name: "NIOCore", package: "swift-nio"),
@@ -22,18 +22,10 @@ let package = Package(
             ],
             swiftSettings: swiftSettings
         ),
-        .testTarget(
-            name: "AppTests",
-            dependencies: [
-                .target(name: "App"),
-                .product(name: "XCTVapor", package: "vapor"),
-            ],
-            swiftSettings: swiftSettings
-        )
     ]
 )
 
-var swiftSettings: [SwiftSetting] { [
+let swiftSettings: [SwiftSetting] = [
     .enableUpcomingFeature("DisableOutwardActorInference"),
     .enableExperimentalFeature("StrictConcurrency"),
-] }
+]
