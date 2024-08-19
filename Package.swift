@@ -2,14 +2,14 @@
 import PackageDescription
 
 let package = Package(
-    name: "TravelerServer",
+    name: "TravellerServer",
     platforms: [
         .macOS(.v14),
     ],
     products: [
         .executable(
-            name: "travelerserver",
-            targets: ["TravelerServer"]
+            name: "travellerserver",
+            targets: ["TravellerServer"]
         ),
     ],
     dependencies: [
@@ -20,7 +20,7 @@ let package = Package(
     ],
     targets: [
         .executableTarget(
-            name: "TravelerServer",
+            name: "TravellerServer",
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
                 .product(name: "NIOCore", package: "swift-nio"),
