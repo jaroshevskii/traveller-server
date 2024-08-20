@@ -21,7 +21,7 @@ fi
 curl -LO "https://github.com/$USERNAME/$REPOSITORY/releases/download/$TAG/$ARCHIVE"
 
 if [ -d "$EXTRACTION_DIR" ]; then
-  echo "Directory $EXTRACTION_DIR already exists. Removing the old director..."
+  echo "Directory $EXTRACTION_DIR already exists. Removing the old directory..."
   rm -rf "$EXTRACTION_DIR"
 fi
 
@@ -40,4 +40,6 @@ else
   exit 1
 fi
 
-ngrok http --domain=evident-pug-abnormally.ngrok-free.app 8080
+echo "Starting ngrok in the background..."
+nohup ngrok http --domain=evident-pug-abnormally.ngrok-free.app 8080 > ngrok.log 2>&1 &
+echo "ngrok is running in the background. Logs are being written to ngrok.log."
