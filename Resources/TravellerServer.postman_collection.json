@@ -1,0 +1,47 @@
+{
+	"info": {
+		"_postman_id": "432fae82-fe65-4940-a510-46f866ddaaea",
+		"name": "Traveller Server",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36017612"
+	},
+	"item": [
+		{
+			"name": "Base",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base",
+			"value": "evident-pug-abnormally.ngrok-free.app",
+			"type": "string"
+		}
+	]
+}
